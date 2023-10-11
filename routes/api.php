@@ -30,16 +30,15 @@ Route::controller(UserController::class)->group(function() {
 Route::controller(UserController::class)->group(function() {
     Route::get('user', 'getUserDetail');
     Route::get('logout', 'userLogout');
-    Route::post('display', 'viewStudent');
-    Route::post('search', 'searchStudent');
-    Route::post('create', 'createPage');
-    Route::post('registerStudent', 'registerStudent');
+//    Route::post('display', 'viewStudent');
+//    Route::post('search', 'searchStudent');
+//    Route::post('registerStudent', 'registerStudent');
 })->middleware('auth:api');
 
 Route::controller(StudentController::class)->group(function() {
     Route::post('display', 'index');
     Route::post('search', 'searchStudent');
-    Route::post('create', 'createPage');
     Route::post('registerStudent', 'registerStudent');
+    Route::post('import', 'import');
 })->middleware('auth:api');
 

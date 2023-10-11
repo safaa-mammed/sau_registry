@@ -2,14 +2,17 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Imports\ImportStudent;
 use App\Models\User;
 use App\Models\Student;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use http\Env\Response;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\Builder;
 use Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class StudentController extends Controller
 {
@@ -17,7 +20,7 @@ class StudentController extends Controller
     {
         //check if user is logged in
         if (Auth::guard('api')->check()) {
-            $students = Student::orderBy('id', 'desc')->paginate(2, ['name', 'address']);
+            $students = Student::orderBy('id', 'desc')->paginate(5, ['name', 'address']);
 
             //return index page and pass through the student variable along with page number data
             return response(['Student Data' => $students]);
@@ -78,5 +81,21 @@ class StudentController extends Controller
         } else
             return response(['User' => 'unauthorized'], 401);
 
+    }
+
+    //bulk operations
+    //PUT for updating
+    //DELETE for deleting
+    //POST for creating
+    public function bulkInsert(Request $request) {
+        return \response(['message'=>'here']);
+    }
+
+    public function import(Request $request) {
+//        Excel::import(new ImportStudent,
+//            $request->file('file')->store('files'));
+        Excel::import(new ImportStudent, request()->file('files'));
+
+        return \response(['Status'=>'Import Success']);
     }
 }
