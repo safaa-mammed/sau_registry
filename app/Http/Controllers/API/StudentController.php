@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Imports\ImportStudent;
+use App\Exports\ExportStudent;
 use App\Models\User;
 use App\Models\Student;
 use App\Http\Controllers\Controller;
@@ -87,15 +88,36 @@ class StudentController extends Controller
     //PUT for updating
     //DELETE for deleting
     //POST for creating
-    public function bulkInsert(Request $request) {
-        return \response(['message'=>'here']);
+
+    //bulk create student data
+    public function importStudentData(Request $request) {
+//        try{
+//            Excel::import(new ImportStudent, request()->file('files'));
+//            return response(['Status'=> 'completed']);
+//        }
+//        catch (\Maatwebsite\Excel\Validators\ValidationException $e){
+//            $failures = $e->failures();
+//            return response()->with('error_message', $e->getMessage())->with('failures', $e->failures());
+//            return response(['failure'=>$failures]);
+//        }
+        $import = new ImportStudent();
+        $import->import($request->file('files'));
+        foreach ($import->failures() as $failure) {
+            $failure->row(); // row that went wrong
+            $failure->attribute(); // either heading key (if using heading row concern) or column index
+            $failure->errors(); // Actual error messages from Laravel validator
+            $failure->values(); // The values of the row that has failed.
+        }
+        return response(['Status'=> 'completed without duplicate records']);
+
+//        return response(['Status'=>'Import Success']);
+    }
+    public function exportStudentData() {
+        return Excel::download(new ExportStudent, 'StudentData.xlsx');
     }
 
-    public function import(Request $request) {
-//        Excel::import(new ImportStudent,
-//            $request->file('file')->store('files'));
-        Excel::import(new ImportStudent, request()->file('files'));
+    //bulk update
+    public function bulkUpdate() {
 
-        return \response(['Status'=>'Import Success']);
     }
 }
