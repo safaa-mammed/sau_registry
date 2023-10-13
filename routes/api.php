@@ -39,7 +39,7 @@ Route::controller(StudentController::class)->group(function() {
     Route::post('display', 'index');
     Route::post('search', 'searchStudent');
     Route::post('registerStudent', 'registerStudent');
-    Route::post('import', 'importStudentData');
+    Route::post('upsert', 'importStudentData');
     Route::get('export', 'exportStudentData');
 })->middleware('auth:api');
 

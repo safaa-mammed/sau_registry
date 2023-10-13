@@ -84,28 +84,20 @@ class StudentController extends Controller
             return response(['User' => 'unauthorized'], 401);
 
     }
-
     //bulk operations
-    //PUT for updating
     //DELETE for deleting
     //POST for creating
 
-    //bulk create student data
+    //bulk create/update student data
     public function importStudentData(Request $request) {
 
         $import = new ImportStudent();
         $import->import($request->file('files'));
 
         return response(['Status'=> 'completed', 'message'=>'new records inserted, and existing records updated']);
-
-//        return response(['Status'=>'Import Success']);
     }
     public function exportStudentData() {
         return Excel::download(new ExportStudent, 'StudentData.xlsx');
     }
 
-    //bulk update
-    public function bulkUpdate() {
-
-    }
 }

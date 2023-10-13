@@ -26,14 +26,21 @@ class ImportStudent implements ToModel, WithUpserts,WithHeadingRow
         if (!isset($row['email'])) {
             return null;
         }
+        if($row['action'] == 'delete'){
+            $student = Student::where('email',$row['email']);
+            $student->delete();
+            return null;
+        }
+        else {
+            return new Student([
+                'name'=>$row['name'],
+                'email'=>$row['email'],
+                'address'=>$row['address'],
+                'study_course'=>$row['course'],
 
-        return new Student([
-            'name'=>$row['name'],
-            'email'=>$row['email'],
-            'address'=>$row['address'],
-            'study_course'=>$row['course'],
+            ]);
+        }
 
-        ]);
     }
 
 }
