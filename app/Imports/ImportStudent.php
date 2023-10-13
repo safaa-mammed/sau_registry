@@ -1,18 +1,12 @@
 <?php
-
 namespace App\Imports;
 
 use App\Models\Student;
-use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
 use Maatwebsite\Excel\Concerns\Importable;
-//use Maatwebsite\Excel\Concerns\SkipsOnError;
-use Maatwebsite\Excel\Concerns\WithValidation;
-//use Maatwebsite\Excel\Concerns\SkipsErrors;
-use Maatwebsite\Excel\Concerns\SkipsOnFailure;
-use Maatwebsite\Excel\Concerns\SkipsFailures;
-class ImportStudent implements ToModel,WithValidation,WithHeadingRow,SkipsOnFailure
+use Maatwebsite\Excel\Concerns\WithUpserts;
+class ImportStudent implements ToModel, WithUpserts,WithHeadingRow
 {
     /**
     * @param array $row
@@ -20,11 +14,20 @@ class ImportStudent implements ToModel,WithValidation,WithHeadingRow,SkipsOnFail
     * @return \Illuminate\Database\Eloquent\Model|null
     */
 
-    use Importable,SkipsFailures;
+    use Importable;
+    //if records already exist, the database record will be updated not inserted
+    public function uniqueBy()
+    {
+        return 'email'; //identifies how a record is unique
+    }
+
     public function model(array $row)
     {
+        if (!isset($row['email'])) {
+            return null;
+        }
+
         return new Student([
-            //
             'name'=>$row['name'],
             'email'=>$row['email'],
             'address'=>$row['address'],
@@ -32,21 +35,5 @@ class ImportStudent implements ToModel,WithValidation,WithHeadingRow,SkipsOnFail
 
         ]);
     }
-
-    public function rules(): array
-    {
-        return [
-            'email'=> 'unique:students,email',
-            'name'=> 'required',
-            'address'=>'required',
-            'course'=>'required'
-        ];
-    }
-    /*
-    public function onError(\Throwable $e)
-    {
-        // Handle the exception how you'd like.
-        throw $e;
-    }*/
 
 }
