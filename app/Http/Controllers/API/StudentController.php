@@ -4,15 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Imports\ImportStudent;
 use App\Exports\ExportStudent;
-use App\Imports\StudentImport;
-use App\Models\User;
 use App\Models\Student;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use http\Env\Response;
 use Illuminate\Http\Request;
-use Illuminate\Http\UploadedFile;
-use Illuminate\Database\Eloquent\Builder;
 use Auth;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -26,7 +22,6 @@ class StudentController extends Controller
 
             //return index page and pass through the student variable along with page number data
             return response(['Student Data' => $students]);
-
         } else
             return response(['User' => 'unauthorized'], 401);
     }
@@ -84,17 +79,19 @@ class StudentController extends Controller
             return response(['User' => 'unauthorized'], 401);
 
     }
-    //bulk operations
-    //DELETE for deleting
-    //POST for creating
-
     //bulk create/update student data
-    public function importStudentData(Request $request) {
+    public function importStudentData(Request $request)
+    {
+
+        if (!Auth::guard('api')->check()) {
+            return response(['data' => 'unauthorized'], 401);
+        } else {
 
         $import = new ImportStudent();
         $import->import($request->file('files'));
 
-        return response(['Status'=> 'completed', 'message'=>'new records inserted, and existing records updated']);
+        return response(['Status' => 'completed', 'message' => 'new records inserted, and existing records updated']);
+        }
     }
     public function exportStudentData() {
         return Excel::download(new ExportStudent, 'StudentData.xlsx');

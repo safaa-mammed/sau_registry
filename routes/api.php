@@ -15,31 +15,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::resource('users', \App\Http\Controllers\UserController::class);
-
+/*
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
-});
+});*/
 
 Route::controller(UserController::class)->group(function() {
-    Route::post('register', 'registerUser');
-    Route::post('login', 'loginUser');
+
 
 });
 
 //requires authorisation
 Route::controller(UserController::class)->group(function() {
+    Route::post('register', 'registerUser');
+    Route::post('login', 'loginUser');
     Route::get('user', 'getUserDetail');
     Route::get('logout', 'userLogout');
-//    Route::post('display', 'viewStudent');
-//    Route::post('search', 'searchStudent');
-//    Route::post('registerStudent', 'registerStudent');
 })->middleware('auth:api');
 
+//requires authorisation
 Route::controller(StudentController::class)->group(function() {
     Route::post('display', 'index');
     Route::post('search', 'searchStudent');
     Route::post('registerStudent', 'registerStudent');
-    Route::post('upsert', 'importStudentData');
+    Route::post('import', 'importStudentData');
     Route::get('export', 'exportStudentData');
 })->middleware('auth:api');
 

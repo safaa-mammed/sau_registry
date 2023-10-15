@@ -3,12 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\User;
-use App\Models\Student;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
-use http\Env\Response;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Builder;
 use Auth;
 class UserController extends Controller
 {
@@ -28,7 +25,6 @@ class UserController extends Controller
         $input['password'] = bcrypt($input['password']);
         $user = User::create($input);
         $success['token'] = $user->createToken('SAU')->accessToken;
-        $success['name']= $user->name;
         return response(['data'=> $user, 'token info'=>$success['token'], 'message'=>'Registration Successful'], 401);
 
     }
@@ -45,10 +41,9 @@ class UserController extends Controller
             return $this->sendError('Validation Error', $validator->errors());
         }
 
-        $input = $request->all();
-        $user = Auth::attempt($input);
-        $user2 = User::whereEmail($request->email)->first();
-        $token = $user2->createToken('SAU')->accessToken;
+//        $input = $request->all();
+        $user = User::whereEmail($request->email)->first();
+        $token = $user->createToken('SAU')->accessToken;
         return response(['status'=>200, 'token'=>$token],200);
     }
 
