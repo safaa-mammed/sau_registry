@@ -28,7 +28,6 @@ class StudentController extends Controller
 
     public function searchStudent(Request $request)
     {
-
         //check if user is logged in
         if (Auth::guard('api')->check()) {
 
@@ -57,7 +56,6 @@ class StudentController extends Controller
 
     public function registerStudent(Request $request)
     {
-
         //check if user is logged in
         if (Auth::guard('api')->check()) {
             //validate input using laravel validate
@@ -79,18 +77,17 @@ class StudentController extends Controller
             return response(['User' => 'unauthorized'], 401);
 
     }
-    //bulk create/update student data
+    //bulk create/update/delete student data
     public function importStudentData(Request $request)
     {
 
         if (!Auth::guard('api')->check()) {
             return response(['data' => 'unauthorized'], 401);
         } else {
+            $import = new ImportStudent();
+            $import->import($request->file('files'));
 
-        $import = new ImportStudent();
-        $import->import($request->file('files'));
-
-        return response(['Status' => 'completed', 'message' => 'new records inserted, and existing records updated']);
+            return response(['Status' => 'completed', 'message' => 'new records inserted, and existing records updated']);
         }
     }
     public function exportStudentData() {
