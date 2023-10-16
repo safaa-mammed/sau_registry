@@ -3,7 +3,7 @@
 https://elements.getpostman.com/redirect?entityId=30397269-788982ad-5ac3-4329-a5c6-85c5784ef835&entityType=collection
 
 ## Presentation
-[Google Drive Link to Presentation](https://drive.google.com/drive/folders/1ExedNcaLvbWTUeHn8xLw6Nr_jLjjkyMt?usp=sharing)
+[Google Drive Link to Presentation](https://drive.google.com/file/d/1HNegqRPQVlXOeWeaBqreNTEdrB07VNtY/view?usp=drive_link))
 
 <i>(video > 10mb hence, cannot embed)</i>
 ## About
