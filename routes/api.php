@@ -27,7 +27,7 @@ Route::controller(UserController::class)->group(function() {
 
 //requires authorisation
 Route::controller(StudentController::class)->group(function() {
-    Route::post('display', 'index');
+    Route::post('index', 'index');
     Route::post('search', 'searchStudent');
     Route::post('registerStudent', 'registerStudent');
     Route::post('import', 'importStudentData');

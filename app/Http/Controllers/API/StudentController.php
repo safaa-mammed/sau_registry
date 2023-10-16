@@ -63,13 +63,13 @@ class StudentController extends Controller
             //validate input using laravel validate
             $validator = Validator::make($request->all(), [
                 'name' => 'required',
-                'email' => 'required|email',
+                'email' => 'unique:students,email|required|email',
                 'study_course' => 'required',
                 'address' => 'required'
             ]);
 
             if ($validator->fails()) {
-                return $this->sendError('Validation Error', $validator->errors());
+                return response(['Error', $validator->errors()]);
             }
 
             //register a student using student model

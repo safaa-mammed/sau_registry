@@ -4,6 +4,7 @@ https://elements.getpostman.com/redirect?entityId=30397269-788982ad-5ac3-4329-a5
 
 ## Presentation
 
+
 ## About
 The SAU Student Registry API is a RESTFUL API that allows university staff to login and conduct operations on student data such as creating, updating, deleting, and displaying student data 
 
