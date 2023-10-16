@@ -33,16 +33,18 @@ class StudentController extends Controller
 
             $email = $request->input('email');
             $name = $request->input('name');
+
             if ($email == null && $name != null) {
                 //search by name
                 $students = Student::where('name', 'like', '%' . $name . '%')->get(['name', 'address']);;
             } else if ($name == null && $email != null) {
                 //search by email
-                $students = Student::where('email', $email)->get(['name', 'address']);;
+                $students = Student::where('email', $email)->get(['name', 'address']);
             } else {
                 return response(['Message' => 'Search by name OR email'], 401);
             }
 
+            //if student with name/email inputted doesn't exist
             if (!$students->isEmpty()) {
                 return response(['Message' => 'Student Found.', 'Student Data' => $students], 401);
 
@@ -87,11 +89,10 @@ class StudentController extends Controller
             $import = new ImportStudent();
             $import->import($request->file('files'));
 
-            return response(['Status' => 'completed', 'message' => 'new records inserted, and existing records updated']);
+            return response(['Status' => 'completed', 'message' => 'new records inserted, existing records updated, records to delete deleted.']);
         }
     }
     public function exportStudentData() {
         return Excel::download(new ExportStudent, 'StudentData.xlsx');
     }
-
 }

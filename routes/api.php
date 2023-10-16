@@ -15,15 +15,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::resource('users', \App\Http\Controllers\UserController::class);
-/*
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});*/
 
-Route::controller(UserController::class)->group(function() {
-
-
-});
 
 //requires authorisation
 Route::controller(UserController::class)->group(function() {
