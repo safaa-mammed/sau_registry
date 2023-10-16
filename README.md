@@ -3,8 +3,9 @@
 https://elements.getpostman.com/redirect?entityId=30397269-788982ad-5ac3-4329-a5c6-85c5784ef835&entityType=collection
 
 ## Presentation
-[Presentation](https://drive.google.com/drive/folders/1ExedNcaLvbWTUeHn8xLw6Nr_jLjjkyMt?usp=sharing)
+[Google Drive Link to Presentation](https://drive.google.com/drive/folders/1ExedNcaLvbWTUeHn8xLw6Nr_jLjjkyMt?usp=sharing)
 
+<i>(video > 10mb hence, cannot embed)</i>
 ## About
 The SAU Student Registry API is a RESTFUL API that allows university staff to login and conduct operations on student data such as creating, updating, deleting, and displaying student data 
 
@@ -22,7 +23,7 @@ The SAU Student Registry API is a RESTFUL API that allows university staff to lo
 ## API Features
 
 ### Setting up Laravel Passport
-Laravel Passport is used as an authorization method to register, login and allow authorized users to use the API by using access tokens. This is done by installing Laravel Passport, configuring the auth.php config file for api and changing driver to "passport", as well as configuring the User model, and api routes to use auth:api middleware. 
+Laravel Passport is used as an authorization method to register, log in and allow authorized users to use the API by using access tokens. This is done by installing Laravel Passport, configuring the auth.php config file for API and changing the driver to "passport", as well as configuring the User model, and api routes to use auth:api middleware. 
 
 ### Setting up Models & Controllers
 The User model is a default Model created in Laravel, while the Student Model was created for student data. Each of these has a controller whereby the UserController.php handles requests related to user registration and login, while the StudentController handles request to access student data.
@@ -37,7 +38,7 @@ Route::controller(UserController::class)->group(function() {
 })->middleware('auth:api');
 
 Route::controller(StudentController::class)->group(function() {
-    Route::post('display', 'index');
+    Route::post('index', 'index');
     Route::post('search', 'searchStudent');
     Route::post('registerStudent', 'registerStudent');
     Route::post('import', 'importStudentData');
